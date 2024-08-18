@@ -61,4 +61,11 @@ public class StudentController {
         studentService.deleteStudent(studentId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Student> updateStudent(@PathVariable Long id,@RequestBody Student student){
+        student.setStudentId(id);
+        Student updateStudent = studentService.updateStudent(student);
+        return new ResponseEntity<>(updateStudent,HttpStatus.OK);
+    }
 }

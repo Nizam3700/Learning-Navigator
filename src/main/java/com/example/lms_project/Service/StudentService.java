@@ -2,6 +2,7 @@ package com.example.lms_project.Service;
 
 import com.example.lms_project.Entity.Student;
 import com.example.lms_project.Entity.Subject;
+import com.example.lms_project.Exception.CustomNotFoundException;
 import com.example.lms_project.Respository.StudentRepo;
 import com.example.lms_project.Respository.SubjectRepo;
 import jakarta.transaction.Transactional;
@@ -31,20 +32,29 @@ public class StudentService {
     }
 
     public Student getStudentById(Long id) {
-        return studentRepo.findById(id).orElseThrow(() -> new RuntimeException("Student not found"));
+        return studentRepo.findById(id).orElseThrow(() -> new CustomNotFoundException("Student not found"));
     }
 
     public void deleteStudent(Long id) {
-        studentRepo.deleteById(id);
+        studentRepo.findById(id).ifPresentOrElse(
+                studentRepo::delete,
+                () -> {
+                    throw new CustomNotFoundException("Student Not found");
+                }
+        );
     }
 
     @Transactional
     public Student enrollSubject(Long studentId, Long subjectId) {
         Student student = getStudentById(studentId);
-        Subject subject = subjectRepo.findById(subjectId).orElseThrow(() -> new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "Subject not found"
-        ));
+        Subject subject = subjectRepo.findById(subjectId).orElseThrow(() -> new CustomNotFoundException ("Subject not found"));
         student.getEnrolledSubjects().add(subject);
         return studentRepo.save(student);
+    }
+
+    public Student updateStudent(Student student) {
+        Student existingStudent = studentRepo.findById(student.getStudentId()).orElseThrow(() -> new CustomNotFoundException("Student not found"));
+        existingStudent.setStudentName(student.getStudentName());
+        return studentRepo.save(existingStudent);
     }
 }

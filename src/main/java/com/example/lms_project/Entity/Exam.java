@@ -19,6 +19,7 @@ public class Exam {
     private Long examId;
     private String name;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "registeredExams")
-    private Set<Student> enrolledStudents = new HashSet<>();
+    private List<Student> enrolledStudents = new ArrayList<>();
 }

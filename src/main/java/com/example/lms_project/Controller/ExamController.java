@@ -1,6 +1,7 @@
 package com.example.lms_project.Controller;
 
 import com.example.lms_project.Entity.Exam;
+import com.example.lms_project.Entity.Student;
 import com.example.lms_project.Entity.Subject;
 import com.example.lms_project.Service.ExamService;
 import com.example.lms_project.Service.StudentService;
@@ -39,13 +40,13 @@ public class ExamController {
         return new ResponseEntity<>(savedSubject, HttpStatus.CREATED);
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Subject> updateSubject(@PathVariable Long id, @RequestBody Exam exam) {
-//        Exam existingexam = examService.getExamById(id);
-//        existingexam.setName(exam.getName());
-//        Exam updatedExam = examService.regExams(existingexam);
-//        return new ResponseEntity<>(updatedSubject, HttpStatus.OK);
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Exam> updateStudent(@PathVariable Long id, @RequestBody Exam exam){
+        exam.setExamId(id);
+        Exam updateExam = examService.updateExam(exam);
+        return new ResponseEntity<>(updateExam,HttpStatus.OK);
+    }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteExam(@PathVariable Long id) {
