@@ -25,16 +25,11 @@ EXPOSE 8081
 
 # Set environment variables for MySQL
 ENV MYSQL_DBNAME=lms
-ENV MYSQL_USERNAME=root
-ENV MYSQL_PASSWORD=Nizam@143
+ENV MYSQL_USERNAME=${MYSQL_USERNAME}
+ENV MYSQL_PASSWORD=${MYSQL_PASSWORD}
+
 ENV MYSQL_URL=jdbc:mysql://127.0.0.1
 ENV MYSQL_PORT=3306
-
-# ENV MYSQl_DBNAME=defaultdb
-# ENV MYSQL_USERNAME=avnadmin
-# ENV MYSQL_PASSWORD=AVNS_TgDsSNoiJAL60YDVnVd
-# ENV MYSQL_URL=jdbc:mysql://mysql-1ae1a222-nizamuddin8637-1ba4.h.aivencloud.com
-# ENV MYSQL_PORT=22346
 
 # Run the Spring Boot application
 ENTRYPOINT ["java", "-jar", "app.jar"]
